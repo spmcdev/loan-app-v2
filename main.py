@@ -20,6 +20,15 @@ payments = []
 loan_id_counter = 1
 payment_id_counter = 1
 
+# Health check endpoint
+@app.get("/")
+def root():
+    return {"message": "Loan App is running!", "status": "healthy"}
+
+@app.get("/health")
+def health_check():
+    return {"status": "healthy", "loans_count": len(loans), "payments_count": len(payments)}
+
 # -------------------------
 # Models
 # -------------------------
