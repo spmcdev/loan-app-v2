@@ -1,7 +1,7 @@
 // Configuration for the frontend
 const CONFIG = {
     // Railway Backend URL - Update this with your actual backend Railway URL
-    API_BASE_URL: 'https://your-backend-app.railway.app',
+    API_BASE_URL: 'https://loan-app-v2-production.up.railway.app/',
     
     // For local development, uncomment this line:
     // API_BASE_URL: 'http://localhost:8000',
