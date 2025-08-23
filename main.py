@@ -1,5 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from datetime import date
 import os
@@ -15,6 +17,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Mount static files directory
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
 loans = []
 payments = []
 loan_id_counter = 1
@@ -23,11 +28,32 @@ payment_id_counter = 1
 # Health check endpoint
 @app.get("/")
 def root():
-    return {"message": "Loan App is running!", "status": "healthy"}
+    return FileResponse("index.html")
 
 @app.get("/health")
 def health_check():
     return {"status": "healthy", "loans_count": len(loans), "payments_count": len(payments)}
+
+# Serve HTML pages
+@app.get("/dashboard")
+def dashboard():
+    return FileResponse("index.html")
+
+@app.get("/new-loan")
+def new_loan():
+    return FileResponse("newloan.html")
+
+@app.get("/analysis")
+def analysis():
+    return FileResponse("analysis.html")
+
+@app.get("/weekly")
+def weekly():
+    return FileResponse("weekly.html")
+
+@app.get("/borrower-summary")
+def borrower_summary():
+    return FileResponse("borrower_summary.html")
 
 # -------------------------
 # Models
