@@ -2,46 +2,46 @@
 
 ## Architecture
 - **Backend**: FastAPI (deploy to Railway)
-- **Frontend**: Static HTML/CSS/JS files (deploy to static hosting)
+- **Frontend**: Static HTML/CSS/JS files (deploy to Railway as separate service)
 
-## Backend Deployment (Railway)
-The backend API is in the root directory and will be deployed to Railway.
+## Deployment to Railway
 
-**Backend URL**: Your Railway app URL (e.g., `https://your-backend.railway.app`)
+### Backend Deployment
+1. Deploy the root directory to Railway (contains main.py, Procfile, etc.)
+2. Railway will automatically detect it as a Python/FastAPI app
+3. Note your backend URL: `https://your-backend-name.railway.app`
 
-## Frontend Deployment Options
+### Frontend Deployment
+1. Create a NEW Railway service
+2. Connect the SAME GitHub repository
+3. Set the **Root Directory** to `frontend` in Railway settings
+4. Railway will deploy the frontend as a static site
+5. Note your frontend URL: `https://your-frontend-name.railway.app`
 
-### Option 1: Vercel (Recommended)
-1. Create a new repository for just the frontend
-2. Copy the `frontend/` folder contents to the new repo
-3. Connect to Vercel
-4. Update `config.js` with your Railway backend URL
-
-### Option 2: Netlify
-1. Drag and drop the `frontend/` folder to Netlify
-2. Update `config.js` with your Railway backend URL
-
-### Option 3: GitHub Pages
-1. Create a new GitHub repository
-2. Copy `frontend/` contents to the repo
-3. Enable GitHub Pages in repository settings
-4. Update `config.js` with your Railway backend URL
-
-### Option 4: Railway Static Site
-1. Create a new Railway service
-2. Deploy the `frontend/` folder as a static site
-3. Update `config.js` with your backend Railway URL
-
-## Configuration
-
-1. Deploy the backend first and get the URL
-2. Update `frontend/config.js` with your backend URL:
+### Configuration Steps
+1. **Deploy backend first** and get the backend URL
+2. **Update frontend config**: Edit `frontend/config.js` with your backend URL:
    ```javascript
-   const CONFIG = {
-       API_BASE_URL: 'https://your-actual-backend.railway.app',
-   };
+   API_BASE_URL: 'https://your-actual-backend.railway.app',
    ```
-3. Deploy the frontend to your chosen static hosting service
+3. **Commit and push** the config change
+4. **Deploy frontend** to Railway
+
+## Railway Deployment Steps
+
+### Step 1: Deploy Backend
+- Railway service 1: Root directory (contains main.py)
+- This becomes your API server
+
+### Step 2: Deploy Frontend  
+- Railway service 2: Root directory set to `frontend/`
+- This becomes your web interface
+
+### Step 3: Update Configuration
+After both are deployed:
+1. Copy your backend Railway URL
+2. Update `frontend/config.js` with the backend URL
+3. Commit and push to update frontend
 
 ## Local Development
 
@@ -51,11 +51,19 @@ uvicorn main:app --reload --port 8000
 ```
 
 ### Frontend:
-Update `config.js` to use localhost:
-```javascript
-API_BASE_URL: 'http://localhost:8000',
-```
-Then serve the frontend folder with any static server or open HTML files directly.
+The config.js automatically detects localhost and uses `http://localhost:8000`
+
+## Railway Service Configuration
+
+### Backend Service:
+- **Root Directory**: `/` (default)
+- **Build Command**: Auto-detected
+- **Start Command**: From Procfile: `uvicorn main:app --host 0.0.0.0 --port $PORT --workers 1`
+
+### Frontend Service:
+- **Root Directory**: `frontend`
+- **Build Command**: None needed
+- **Start Command**: From Procfile: `python -m http.server $PORT`
 
 ## API Endpoints
 - `GET /` - API health check

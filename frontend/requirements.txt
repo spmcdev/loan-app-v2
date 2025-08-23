@@ -1,0 +1,2 @@
+# No Python dependencies needed for static frontend
+# This file exists to ensure Railway recognizes this as a Python project
