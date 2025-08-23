@@ -1,0 +1,146 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f8f8;
+}
+
+nav {
+    background-color: #3498db;
+    padding: 10px;
+    display: flex;
+    gap: 15px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+section, .section {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 15px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    margin: 20px auto;
+}
+
+form label {
+    margin-top: 10px;
+}
+
+form input, form button {
+    padding: 8px;
+    margin-top: 5px;
+    font-size: 16px;
+}
+
+button {
+    cursor: pointer;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+.dashboard-card {
+    display: inline-block;
+    width: 28%;
+    margin: 1%;
+    background: #3498db;
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.dashboard-card h2 {
+    margin: 0 0 10px 0;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table th, table td {
+    padding: 8px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+.borrower-row {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.borrower-name {
+    width: 180px;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.weeks-container {
+    display: flex;
+    gap: 5px;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+}
+
+.week-box {
+    padding: 10px;
+    min-width: 100px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    user-select: none;
+}
+
+.week-box.paid {
+    background-color: #2ecc71;
+    color: white;
+}
+
+.week-box.unpaid {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.week-box button {
+    margin-top: 5px;
+    padding: 5px 10px;
+    font-size: 12px;
+    background-color: #f39c12;
+    color: white;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+}
+
+.week-box button:hover {
+    background-color: #d35400;
+}

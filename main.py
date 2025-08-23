@@ -1,24 +1,19 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from datetime import date
 import os
 import uvicorn
 
-app = FastAPI(title="Loan App (Weekly Installments)")
+app = FastAPI(title="Loan App API (Backend Only)")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["*"],  # In production, specify your frontend domain
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-# Mount static files directory
-app.mount("/static", StaticFiles(directory="static"), name="static")
 
 loans = []
 payments = []
@@ -28,32 +23,11 @@ payment_id_counter = 1
 # Health check endpoint
 @app.get("/")
 def root():
-    return FileResponse("index.html")
+    return {"message": "Loan App API is running!", "status": "healthy", "version": "1.0"}
 
 @app.get("/health")
 def health_check():
     return {"status": "healthy", "loans_count": len(loans), "payments_count": len(payments)}
-
-# Serve HTML pages
-@app.get("/dashboard")
-def dashboard():
-    return FileResponse("index.html")
-
-@app.get("/new-loan")
-def new_loan():
-    return FileResponse("newloan.html")
-
-@app.get("/analysis")
-def analysis():
-    return FileResponse("analysis.html")
-
-@app.get("/weekly")
-def weekly():
-    return FileResponse("weekly.html")
-
-@app.get("/borrower-summary")
-def borrower_summary():
-    return FileResponse("borrower_summary.html")
 
 # -------------------------
 # Models

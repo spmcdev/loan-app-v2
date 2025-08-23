@@ -43,3 +43,8 @@ Thumbs.db
 
 # Railway
 .railway/
+
+# Frontend build files (if using build tools)
+frontend/dist/
+frontend/build/
+frontend/node_modules/

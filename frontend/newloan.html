@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>New Loan</title>
+<style>
+body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f6f8; }
+nav { background-color: #2c3e50; padding: 12px 20px; text-align: center; }
+nav a { color: #ecf0f1; margin: 0 15px; text-decoration: none; font-weight: bold; font-size: 16px; }
+nav a:hover { color: #f39c12; text-decoration: underline; }
+h1 { text-align: center; margin-top: 25px; color: #34495e; }
+
+form { max-width: 400px; margin: 20px auto; display: flex; flex-direction: column; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+form label { margin-top: 10px; font-weight: bold; }
+form input, form button { padding: 10px; margin-top: 5px; font-size: 16px; border-radius: 5px; border: 1px solid #ccc; }
+button { cursor: pointer; background-color: #3498db; color: white; border: none; }
+button:hover { background-color: #2980b9; }
+</style>
+</head>
+<body>
+
+<nav>
+   <a href="index.html">Home</a>
+  <a href="newloan.html">New Loan</a>
+  <a href="analysis.html">Analysis</a>
+  <a href="weekly.html">Weekly Payments</a>
+  <a href="borrower_summary.html">Borrower Summary</a>
+</nav>
+
+<h1>New Loan</h1>
+
+<form id="loan-form">
+  <label>Borrower ID:</label>
+  <input type="text" id="borrower-id" placeholder="Enter Borrower ID" required>
+
+  <label>Borrower Name:</label>
+  <input type="text" id="borrower-name" placeholder="Enter Borrower Name" required>
+
+  <label>Loan Amount:</label>
+  <input type="number" id="loan-amount" placeholder="Enter Loan Amount" required>
+
+  <label>Interest (%):</label>
+  <input type="number" id="loan-interest" placeholder="Enter Interest %" required>
+
+  <label>Weeks:</label>
+  <input type="number" id="loan-weeks" placeholder="Enter Number of Weeks" required>
+
+  <label>Start Date:</label>
+  <input type="date" id="start-date" required>
+
+  <button type="submit">Add Loan</button>
+</form>
+
+<script>
+const API_URL = window.location.origin;
+
+document.getElementById("loan-form").onsubmit = async function(e){
+    e.preventDefault();
+
+    const borrowerId = document.getElementById("borrower-id").value.trim();
+    const borrowerName = document.getElementById("borrower-name").value.trim();
+    const amount = parseFloat(document.getElementById("loan-amount").value);
+    const interest = parseFloat(document.getElementById("loan-interest").value);
+    const weeks = parseInt(document.getElementById("loan-weeks").value);
+    const startDate = document.getElementById("start-date").value;
+
+    if(!borrowerId || !borrowerName || !amount || !interest || !weeks || !startDate){
+        alert("Please fill all fields");
+        return;
+    }
+
+    const loanData = {
+        borrower_id: borrowerId,
+        borrower: borrowerName,
+        amount,
+        interest,
+        weeks,
+        start_date: startDate
+    };
+
+    try {
+        const res = await fetch(`${API_URL}/loans`, {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(loanData)
+        });
+
+        if(!res.ok) throw new Error(await res.text());
+        const loan = await res.json();
+        console.log("Loan added:", loan);
+        alert(`Loan added successfully!\nLoan ID: ${loan.id}\nBorrower ID: ${loan.borrower_id}`);
+        document.getElementById("loan-form").reset();
+    } catch(err) {
+        console.error(err);
+        alert("Failed to add loan. See console for details.");
+    }
+};
+</script>
+
+</body>
+</html>
