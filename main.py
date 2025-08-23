@@ -2,6 +2,8 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from datetime import date
+import os
+import uvicorn
 
 app = FastAPI(title="Loan App (Weekly Installments)")
 
@@ -88,3 +90,7 @@ def delete_payment(payment_id: int):
             payments.remove(p)
             return {"detail": f"Payment {payment_id} deleted"}
     raise HTTPException(status_code=404, detail="Payment not found")
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run("main:app", host="0.0.0.0", port=port)
